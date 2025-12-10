@@ -17,10 +17,10 @@ export default function Products() {
   };
 
   return (
-    <div>
-      <h1>Products</h1>
+    <div className="w-[90%] m-auto py-5">
+      <h1 className="text-center font-bold text-2xl">Products</h1>
 
-      <Link to="/add" className="btn">
+      <Link to="/add" className="btn text-blue-600">
         Add Product
       </Link>
 
@@ -42,7 +42,7 @@ export default function Products() {
               <td>{p.id}</td>
               <td>{p.title}</td>
               <td>
-                <img src={p.img} width="60" />
+                <img src={p.img} className="w-50 h-auto rounded-xl" />
               </td>
               <td>${p.price}</td>
               <td>

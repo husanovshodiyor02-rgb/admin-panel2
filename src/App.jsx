@@ -7,7 +7,7 @@ import EditProduct from "./pages/EditProduct";
 export default function App() {
   return (
     <div>
-      <nav>
+      <nav className="flex gap-7 w-[90%] m-auto py-5 text-blue-600">
         <Link to="/">Info</Link>
         <Link to="/products">Products</Link>
       </nav>
