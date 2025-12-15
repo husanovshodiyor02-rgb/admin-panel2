@@ -1,21 +1,22 @@
-import { useEffect, useState } from "react";
 import { getProducts } from "../api/productsData";
 
-export default function Info() {
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    setProducts(getProducts());
-  }, []);
-
-  const total = products.length;
-  const totalPrice = products.reduce((sum, p) => sum + Number(p.price), 0);
+const Info = () => {
+  const products = getProducts();
+  const totalCount = products.length;
+  const totalSum = products.reduce((sum, p) => sum + Number(p.price), 0);
 
   return (
-    <div className="w-[90%] m-auto">
-      <h1>Info</h1>
-      <p>Jami tovarlar: {total}</p>
-      <p>Tovarlar summasi: ${totalPrice}</p>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="bg-white p-4 rounded shadow">
+        <h3>Total Products</h3>
+        <p className="text-2xl font-bold">{totalCount}</p>
+      </div>
+      <div className="bg-white p-4 rounded shadow">
+        <h3>Total Sum</h3>
+        <p className="text-2xl font-bold">${totalSum.toFixed(2)}</p>
+      </div>
     </div>
   );
-}
+};
+
+export default Info;

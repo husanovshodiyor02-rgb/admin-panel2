@@ -1,23 +1,30 @@
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import Sidebar from "./components/Sidebar";
+import Topbar from "./components/Topbar";
 import Info from "./pages/Info";
 import Products from "./pages/Products";
 import AddProduct from "./pages/AddProduct";
 import EditProduct from "./pages/EditProduct";
 
-export default function App() {
+function App() {
   return (
-    <div>
-      <nav className="flex gap-7 w-[90%] m-auto py-5 text-blue-600">
-        <Link to="/">Info</Link>
-        <Link to="/products">Products</Link>
-      </nav>
-
-      <Routes>
-        <Route path="/" element={<Info />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/add" element={<AddProduct />} />
-        <Route path="/edit/:id" element={<EditProduct />} />
-      </Routes>
-    </div>
+    
+      <div className="flex min-h-screen">
+        <Sidebar />
+        <div className="flex-1 flex flex-col">
+          <Topbar />
+          <div className="p-6 bg-gray-100 flex-1">
+            <Routes>
+              <Route path="/" element={<Info />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/add-product" element={<AddProduct />} />
+              <Route path="/edit-product/:id" element={<EditProduct />} />
+            </Routes>
+          </div>
+        </div>
+      </div>
+  
   );
 }
+
+export default App;

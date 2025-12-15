@@ -2,44 +2,50 @@ import { useState } from "react";
 import { addProduct } from "../api/productsData";
 import { useNavigate } from "react-router-dom";
 
-export default function AddProduct() {
-  const nav = useNavigate();
-
-  const [form, setForm] = useState({
-    title: "",
-    img: "",
-    price: "",
-  });
+const AddProduct = () => {
+  const [title, setTitle] = useState("");
+  const [price, setPrice] = useState("");
+  const [img, setImg] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addProduct(form);
-    nav("/products");
+    addProduct({ title, price, img });
+    navigate("/products");
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Add Product</h1>
-
-      <input
-        placeholder="Title"
-        value={form.title}
-        onChange={(e) => setForm({ ...form, title: e.target.value })}
-      />
-
-      <input
-        placeholder="Image URL"
-        value={form.img}
-        onChange={(e) => setForm({ ...form, img: e.target.value })}
-      />
-
-      <input
-        placeholder="Price"
-        value={form.price}
-        onChange={(e) => setForm({ ...form, price: e.target.value })}
-      />
-
-      <button type="submit">Add</button>
-    </form>
+    <div className="bg-white p-6 rounded shadow max-w-md mx-auto">
+      <h2 className="text-xl font-bold mb-4">Add Product</h2>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+        <input
+          placeholder="Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="border px-2 py-1 rounded"
+        />
+        <input
+          placeholder="Price"
+          type="number"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          className="border px-2 py-1 rounded"
+        />
+        <input
+          placeholder="Image URL"
+          value={img}
+          onChange={(e) => setImg(e.target.value)}
+          className="border px-2 py-1 rounded"
+        />
+        <button
+          type="submit"
+          className="bg-green-500 text-white px-3 py-1 rounded mt-2"
+        >
+          Add Product
+        </button>
+      </form>
+    </div>
   );
-}
+};
+
+export default AddProduct;

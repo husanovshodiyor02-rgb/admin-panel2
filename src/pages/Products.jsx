@@ -1,64 +1,48 @@
-import { useEffect, useState } from "react";
 import { getProducts, deleteProduct } from "../api/productsData";
 import { Link } from "react-router-dom";
 
-export default function Products() {
-  const [list, setList] = useState([]);
-
-  const refresh = () => setList(getProducts());
-
-  useEffect(() => {
-    refresh();
-  }, []);
+const Products = () => {
+  const products = getProducts();
 
   const handleDelete = (id) => {
-    deleteProduct(id);
-    refresh();
+    if (window.confirm("Are you sure?")) {
+      deleteProduct(id);
+      window.location.reload();
+    }
   };
 
   return (
-    <div className="w-[90%] m-auto py-5">
-      <h1 className="text-center font-bold text-2xl">Products</h1>
+    <div>
+      <h2 className="text-xl font-bold mb-4">Products</h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {products.map((p) => (
+          <div key={p.id} className="bg-white p-4 rounded shadow relative">
+            <img
+              src={p.img}
+              alt={p.title}
+              className="h-40 w-full object-contain mb-2"
+            />
+            <h3 className="font-medium">{p.title}</h3>
+            <p className="text-green-600 font-bold">${p.price}</p>
 
-      <Link to="/add" className="btn text-blue-600">
-        Add Product
-      </Link>
+            <Link
+              to={`/edit-product/${p.id}`}
+              className="absolute top-2 right-18 bg-yellow-400 px-2 py-1 rounded text-sm"
+            >
+              Edit
+            </Link>
 
-      <table border="1" width="100%">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>IMG</th>
-            <th>Price</th>
-            <th>Edit</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {list.map((p) => (
-            <tr key={p.id}>
-              <td>{p.id}</td>
-              <td>{p.title}</td>
-              <td>
-                <img src={p.img} className="w-50 h-auto rounded-xl" />
-              </td>
-              <td>${p.price}</td>
-              <td>
-                <Link to={`/edit/${p.id}`} className="btn">
-                  Edit
-                </Link>
-              </td>
-              <td>
-                <button onClick={() => handleDelete(p.id)} className="btn red">
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+            <button
+              onClick={() => handleDelete(p.id)}
+              className="absolute top-2 right-2 bg-red-500 px-2 py-1 rounded text-sm text-white"
+            >
+              Delete
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
-}
+};
+
+export default Products;

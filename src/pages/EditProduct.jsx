@@ -1,48 +1,51 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { getOneProduct, updateProduct } from "../api/productsData";
 import { useParams, useNavigate } from "react-router-dom";
 
-export default function EditProduct() {
+const EditProduct = () => {
   const { id } = useParams();
-  const nav = useNavigate();
+  const navigate = useNavigate();
+  const product = getOneProduct(id) || {};
 
-  const [form, setForm] = useState({
-    title: "",
-    img: "",
-    price: "",
-  });
+  const [title, setTitle] = useState(product.title || "");
+  const [img, setImg] = useState(product.img || "");
 
   useEffect(() => {
-    const item = getOneProduct(id);
-    setForm(item);
-  }, [id]);
+    if (product.title) setTitle(product.title);
+    if (product.img) setImg(product.img);
+  }, [product]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateProduct(id, form);
-    nav("/products");
+    updateProduct(id, { title, img });
+    navigate("/products");
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Edit Product</h1>
-
-      <input
-        value={form.title}
-        onChange={(e) => setForm({ ...form, title: e.target.value })}
-      />
-
-      <input
-        value={form.img}
-        onChange={(e) => setForm({ ...form, img: e.target.value })}
-      />
-
-      <input
-        value={form.price}
-        onChange={(e) => setForm({ ...form, price: e.target.value })}
-      />
-
-      <button type="submit">Save</button>
-    </form>
+    <div className="bg-white p-6 rounded shadow max-w-md mx-auto">
+      <h2 className="text-xl font-bold mb-4">Edit Product</h2>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+        <input
+          placeholder="Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="border px-2 py-1 rounded"
+        />
+        <input
+          placeholder="Image URL"
+          value={img}
+          onChange={(e) => setImg(e.target.value)}
+          className="border px-2 py-1 rounded"
+        />
+        <button
+          type="submit"
+          className="bg-yellow-500 text-white px-3 py-1 rounded mt-2"
+        >
+          Update Product
+        </button>
+      </form>
+    </div>
   );
-}
+};
+
+export default EditProduct;
